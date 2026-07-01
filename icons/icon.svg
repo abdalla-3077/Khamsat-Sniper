@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="64" fill="#1a1a28"/>
+  
+  <!-- Yellow arc -->
+  <path d="M64 4 A60 60 0 0 1 124 64 L64 64 Z" fill="#fcb62e"/>
+  
+  <!-- Inner white circle -->
+  <circle cx="64" cy="64" r="42" fill="#ffffff"/>
+  
+  <!-- Crosshair -->
+  <circle cx="64" cy="58" r="28" fill="none" stroke="#fcb62e" stroke-width="3"/>
+  <line x1="64" y1="26" x2="64" y2="42" stroke="#fcb62e" stroke-width="3"/>
+  <line x1="64" y1="74" x2="64" y2="90" stroke="#fcb62e" stroke-width="3"/>
+  <line x1="32" y1="58" x2="48" y2="58" stroke="#fcb62e" stroke-width="3"/>
+  <line x1="80" y1="58" x2="96" y2="58" stroke="#fcb62e" stroke-width="3"/>
+  
+  <!-- Briefcase icon -->
+  <rect x="48" y="48" width="32" height="24" rx="2" fill="#333333"/>
+  <rect x="56" y="42" width="16" height="8" rx="2" fill="none" stroke="#333333" stroke-width="2.5"/>
+  <rect x="60" y="56" width="8" height="6" fill="#fcb62e"/>
+  
+  <!-- Speed lines -->
+  <line x1="82" y1="50" x2="96" y2="50" stroke="#fcb62e" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="82" y1="58" x2="100" y2="58" stroke="#fcb62e" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="82" y1="66" x2="92" y2="66" stroke="#fcb62e" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Khamsat Sniper",
+  "description": "مراقبة طلبات خمسات وتوليد عروض بالذكاء الاصطناعي",
+  "version": "1.0.0",
+  "permissions": [
+    "storage",
+    "alarms",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://khamsat.com/*",
+    "https://api.openai.com/*",
+    "https://api.groq.com/*",
+    "https://api.mistral.ai/*",
+    "https://api.cerebras.ai/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://khamsat.com/community/requests*", "https://khamsat.com/services*"],
+      "js": ["content-listing.js"],
+      "css": ["styles.css"]
+    },
+    {
+      "matches": ["https://khamsat.com/community/requests/*", "https://khamsat.com/services/*"],
+      "js": ["content-detail.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

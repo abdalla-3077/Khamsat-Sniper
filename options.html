@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الإعدادات - خمسات سنايبر</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      font-family: 'IBM Plex Sans Arabic', 'Segoe UI', system-ui, sans-serif;
+      direction: rtl;
+      text-align: right;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .page-wrapper {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      padding: 32px 0 28px;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .page-header-icon {
+      width: 46px;
+      height: 46px;
+      background: var(--color-accent-dim);
+      border: 1px solid var(--color-border-accent);
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .page-header-icon svg { color: var(--color-accent); }
+
+    .page-header-text h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .page-header-text p {
+      font-size: 12px;
+      color: var(--color-text-tertiary);
+      margin-top: 3px;
+    }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .section-header-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent);
+      opacity: 0.8;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ── Form elements ── */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.01em;
+    }
+
+    .form-hint {
+      font-size: 11px;
+      color: var(--color-text-tertiary);
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      color: var(--color-text-primary);
+      font-family: inherit;
+      font-size: 13px;
+      transition: all 0.3s var(--ease-expo);
+      direction: rtl;
+      appearance: none;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px var(--color-accent-dim);
+    }
+
+    .form-input::placeholder {
+      color: var(--color-text-tertiary);
+    }
+
+    .form-input.error {
+      border-color: var(--color-error);
+    }
+
+    .form-textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    /* ── Fields grid ── */
+    .fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .field-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 12px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      cursor: pointer;
+      transition: all 0.25s var(--ease-expo);
+      user-select: none;
+    }
+
+    .field-checkbox:hover {
+      border-color: var(--color-border-accent);
+    }
+
+    .field-checkbox:has(input:checked) {
+      border-color: var(--color-accent);
+      background: var(--color-accent-dim);
+    }
+
+    .field-checkbox input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .field-check {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--color-border);
+      border-radius: 0;
+      flex-shrink: 0;
+      position: relative;
+      transition: all 0.25s var(--ease-expo);
+    }
+
+    .field-checkbox:has(input:checked) .field-check {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .field-checkbox:has(input:checked) .field-check::after {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 0px;
+      width: 5px;
+      height: 9px;
+      border: solid var(--color-bg);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .field-text {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      line-height: 1.3;
+      transition: color 0.25s;
+    }
+
+    .field-checkbox:has(input:checked) .field-text {
+      color: var(--color-text-primary);
+      font-weight: 500;
+    }
+
+    /* ── Provider cards ── */
+    .provider-group {
+      margin-bottom: 10px;
+    }
+
+    .provider-toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      cursor: pointer;
+      transition: all 0.25s var(--ease-expo);
+      margin-bottom: 0;
+      user-select: none;
+    }
+
+    .provider-toggle:hover {
+      border-color: var(--color-border-accent);
+    }
+
+    .provider-toggle.active {
+      border-color: var(--color-accent);
+      background: var(--color-accent-dim);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .provider-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .provider-badge {
+      width: 28px;
+      height: 28px;
+      background: var(--color-surface-elevated);
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-secondary);
+      flex-shrink: 0;
+      transition: all 0.25s;
+    }
+
+    .provider-toggle.active .provider-badge {
+      background: var(--color-accent);
+      color: var(--color-bg);
+    }
+
+    .provider-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      flex: 1;
+    }
+
+    .provider-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-text-tertiary);
+      transition: all 0.25s;
+    }
+
+    .provider-toggle.active .provider-indicator {
+      background: var(--color-accent);
+      box-shadow: 0 0 8px var(--color-accent-glow);
+    }
+
+    .provider-fields {
+      display: none;
+      background: var(--color-surface);
+      border: 1px solid var(--color-accent);
+      border-top: none;
+      border-radius: 0;
+      padding: 14px 16px;
+    }
+
+    .provider-fields.visible {
+      display: block;
+    }
+
+    .provider-field {
+      margin-bottom: 10px;
+    }
+
+    .provider-field:last-child { margin-bottom: 0; }
+
+    /* ── Field row (input + button) ── */
+    .field-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .field-row .form-input {
+      flex: 1;
+    }
+
+    .btn-toggle-visibility {
+      padding: 0 12px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      color: var(--color-text-tertiary);
+      cursor: pointer;
+      font-size: 12px;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: all 0.25s var(--ease-expo);
+    }
+
+    .btn-toggle-visibility:hover {
+      color: var(--color-text-primary);
+      border-color: var(--color-border-accent);
+    }
+
+    .field-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 5px;
+    }
+
+    .validation-msg {
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    .validation-msg.success { color: var(--color-accent); }
+    .validation-msg.error { color: var(--color-error); }
+
+    /* ── Model select row ── */
+    .model-field { display: none; }
+    .model-field.visible { display: block; }
+
+    .model-select-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .model-select-row select { flex: 1; }
+
+    .btn-fetch-models {
+      padding: 0 12px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      color: var(--color-accent);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: all 0.25s var(--ease-expo);
+    }
+
+    .btn-fetch-models:hover {
+      background: var(--color-accent-dim);
+      border-color: var(--color-border-accent);
+    }
+
+    .btn-fetch-models:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .model-loading {
+      font-size: 10px;
+      color: var(--color-text-tertiary);
+      margin-top: 4px;
+    }
+
+    /* ── Save bar ── */
+    .save-section {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      background: rgba(241, 241, 241, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--color-border);
+      padding: 14px 24px;
+      z-index: 100;
+    }
+
+    .save-bar {
+      max-width: 580px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .save-status {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-accent);
+      opacity: 0;
+      transition: opacity 0.3s var(--ease-expo);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .save-status.visible {
+      opacity: 1;
+    }
+
+    .save-status.error {
+      color: var(--color-error);
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </div>
+    <div class="page-header-text">
+      <h1>الإعدادات</h1>
+      <p>اضبط مزود الذكاء الاصطناعي وملفك الشخصي</p>
+    </div>
+  </div>
+
+  <form id="settingsForm">
+
+    <!-- ── مجالات العمل ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-header-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="6" height="6" rx="1"/><rect x="16" y="3" width="6" height="6" rx="1"/>
+            <rect x="2" y="15" width="6" height="6" rx="1"/><rect x="16" y="15" width="6" height="6" rx="1"/>
+            <line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="18" x2="16" y2="18"/>
+            <line x1="5" y1="9" x2="5" y2="15"/><line x1="19" y1="9" x2="19" y2="15"/>
+          </svg>
+        </div>
+        <span class="section-label">مجالات العمل</span>
+      </div>
+      <div class="form-group">
+        <div id="fieldsGrid" class="fields-grid">
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Distance Learning / Online Education"><span class="field-check"></span><span class="field-text">التعليم عن بُعد والإلكتروني</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Artificial Intelligence & Machine Learning"><span class="field-check"></span><span class="field-text">الذكاء الاصطناعي وتعلم الآلة</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Programming & Development"><span class="field-check"></span><span class="field-text">البرمجة والتطوير</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Business"><span class="field-check"></span><span class="field-text">الأعمال والإدارة</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Audio / Sound Production"><span class="field-check"></span><span class="field-text">الصوت والإنتاج الموسيقي</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Video & Animation"><span class="field-check"></span><span class="field-text">الفيديو والحركة</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Design"><span class="field-check"></span><span class="field-text">التصميم الجرافيكي</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Digital Marketing"><span class="field-check"></span><span class="field-text">التسويق الرقمي</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Lifestyle"><span class="field-check"></span><span class="field-text">أسلوب الحياة</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Data"><span class="field-check"></span><span class="field-text">البيانات والتحليل</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Engineering & Architecture"><span class="field-check"></span><span class="field-text">الهندسة والمعمار</span></label>
+          <label class="field-checkbox"><input type="checkbox" name="fields" value="Writing & Translation"><span class="field-check"></span><span class="field-text">الكتابة والترجمة</span></label>
+        </div>
+        <div class="form-hint">اختر المجالات التي تعمل بها لتحسين دقة المطابقة</div>
+      </div>
+    </div>
+
+    <!-- ── ملف المهارات ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-header-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <span class="section-label">الملف الشخصي للذكاء الاصطناعي</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">مهاراتك وخبراتك</label>
+        <textarea class="form-input form-textarea" id="skills" placeholder="مثال: خبرة 7 سنوات في React وNode.js وPython، متخصص في تطوير تطبيقات الويب وواجهات API..."></textarea>
+        <div class="form-hint">اكتب مهاراتك بالتفصيل لتحليل أدق وعروض أفضل</div>
+      </div>
+    </div>
+
+    <!-- ── مزود الذكاء الاصطناعي ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-header-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><path d="M22 6l-3 3-3-3"/>
+          </svg>
+        </div>
+        <span class="section-label">مزود الذكاء الاصطناعي</span>
+      </div>
+
+      <!-- Groq -->
+      <div class="provider-group">
+        <label class="provider-toggle" id="providerToggleGroq">
+          <input type="radio" name="provider" value="groq" id="providerGroq">
+          <span class="provider-badge">G</span>
+          <span class="provider-name">Groq — مجاني وسريع</span>
+          <span class="provider-indicator"></span>
+        </label>
+        <div class="provider-fields" id="fieldsGroq">
+          <div class="provider-field">
+            <label class="form-label">مفتاح API</label>
+            <div class="field-row">
+              <input type="password" class="form-input" id="apiKeyGroq" placeholder="gsk_...">
+              <button type="button" class="btn-toggle-visibility" data-field="apiKeyGroq">إظهار</button>
+            </div>
+            <div class="field-actions">
+              <span class="validation-msg" id="validationGroq"></span>
+            </div>
+          </div>
+          <div class="provider-field model-field" id="modelFieldGroq">
+            <label class="form-label">النموذج</label>
+            <div class="model-select-row">
+              <select class="form-input" id="modelGroq">
+                <option value="llama-3.1-8b-instant">llama-3.1-8b-instant</option>
+              </select>
+              <button type="button" class="btn-fetch-models" data-provider="groq">جلب النماذج</button>
+            </div>
+            <div class="model-loading" id="modelLoadingGroq"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OpenAI -->
+      <div class="provider-group">
+        <label class="provider-toggle" id="providerToggleOpenAI">
+          <input type="radio" name="provider" value="openai" id="providerOpenAI">
+          <span class="provider-badge">O</span>
+          <span class="provider-name">OpenAI — GPT-4o وأقوى النماذج</span>
+          <span class="provider-indicator"></span>
+        </label>
+        <div class="provider-fields" id="fieldsOpenAI">
+          <div class="provider-field">
+            <label class="form-label">مفتاح API</label>
+            <div class="field-row">
+              <input type="password" class="form-input" id="apiKeyOpenAI" placeholder="sk-...">
+              <button type="button" class="btn-toggle-visibility" data-field="apiKeyOpenAI">إظهار</button>
+            </div>
+            <div class="field-actions">
+              <span class="validation-msg" id="validationOpenAI"></span>
+            </div>
+          </div>
+          <div class="provider-field model-field" id="modelFieldOpenAI">
+            <label class="form-label">النموذج</label>
+            <div class="model-select-row">
+              <select class="form-input" id="modelOpenAI">
+                <option value="gpt-4o-mini">gpt-4o-mini</option>
+              </select>
+              <button type="button" class="btn-fetch-models" data-provider="openai">جلب النماذج</button>
+            </div>
+            <div class="model-loading" id="modelLoadingOpenAI"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mistral -->
+      <div class="provider-group">
+        <label class="provider-toggle" id="providerToggleMistral">
+          <input type="radio" name="provider" value="mistral" id="providerMistral">
+          <span class="provider-badge">M</span>
+          <span class="provider-name">Mistral — متعدد اللغات ومتوازن</span>
+          <span class="provider-indicator"></span>
+        </label>
+        <div class="provider-fields" id="fieldsMistral">
+          <div class="provider-field">
+            <label class="form-label">مفتاح API</label>
+            <div class="field-row">
+              <input type="password" class="form-input" id="apiKeyMistral" placeholder="...">
+              <button type="button" class="btn-toggle-visibility" data-field="apiKeyMistral">إظهار</button>
+            </div>
+            <div class="field-actions">
+              <span class="validation-msg" id="validationMistral"></span>
+            </div>
+          </div>
+          <div class="provider-field model-field" id="modelFieldMistral">
+            <label class="form-label">النموذج</label>
+            <div class="model-select-row">
+              <select class="form-input" id="modelMistral">
+                <option value="mistral-small-latest">mistral-small-latest</option>
+              </select>
+              <button type="button" class="btn-fetch-models" data-provider="mistral">جلب النماذج</button>
+            </div>
+            <div class="model-loading" id="modelLoadingMistral"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cerebras -->
+      <div class="provider-group">
+        <label class="provider-toggle" id="providerToggleCerebras">
+          <input type="radio" name="provider" value="cerebras" id="providerCerebras">
+          <span class="provider-badge">C</span>
+          <span class="provider-name">Cerebras — فائق السرعة</span>
+          <span class="provider-indicator"></span>
+        </label>
+        <div class="provider-fields" id="fieldsCerebras">
+          <div class="provider-field">
+            <label class="form-label">مفتاح API</label>
+            <div class="field-row">
+              <input type="password" class="form-input" id="apiKeyCerebras" placeholder="csk-...">
+              <button type="button" class="btn-toggle-visibility" data-field="apiKeyCerebras">إظهار</button>
+            </div>
+            <div class="field-actions">
+              <span class="validation-msg" id="validationCerebras"></span>
+            </div>
+          </div>
+          <div class="provider-field model-field" id="modelFieldCerebras">
+            <label class="form-label">النموذج</label>
+            <div class="model-select-row">
+              <select class="form-input" id="modelCerebras">
+                <option value="gemma-4-31b">gemma-4-31b</option>
+              </select>
+              <button type="button" class="btn-fetch-models" data-provider="cerebras">جلب النماذج</button>
+            </div>
+            <div class="model-loading" id="modelLoadingCerebras"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── شخصية الرد ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-header-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <span class="section-label">أسلوب الرد</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">الشخصية والأسلوب</label>
+        <textarea class="form-input form-textarea" id="persona" placeholder="مثال: اكتب بأسلوب ودود ومهني، ابدأ بتقديم نفسك بإيجاز، ركز على فهم المشروع وقدم حلاً واضحاً..." style="min-height: 90px;"></textarea>
+        <div class="form-hint">كيف تريد أن تبدو ردودك؟ يؤثر هذا مباشرة على جودة العروض المولَّدة</div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<!-- Sticky Save Bar -->
+<div class="save-section">
+  <div class="save-bar">
+    <span class="save-status" id="saveStatus">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      تم حفظ الإعدادات
+    </span>
+    <button type="submit" form="settingsForm" class="sniper-btn sniper-btn-primary" id="saveBtn">
+      حفظ الإعدادات
+    </button>
+  </div>
+</div>
+
+<script src="options.js"></script>
+</body>
+</html>
