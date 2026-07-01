@@ -1,0 +1,58 @@
+name: Release Extension
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Build ZIP (exclude dev files)
+        run: |
+          zip -r "khamsat-sniper-${{ steps.version.outputs.VERSION }}.zip" . \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude "*.md" \
+            --exclude "icons/ref.png" \
+            --exclude "*.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Khamsat Sniper ${{ steps.version.outputs.VERSION }}"
+          body: |
+            ## خمسات سنايبر ${{ steps.version.outputs.VERSION }}
+
+            ### التثبيت / Installation
+
+            **الطريقة السهلة (Chrome):**
+            1. حمّل ملف `.zip` من المرفقات أدناه
+            2. فك ضغط الملف إلى مجلد
+            3. افتح `chrome://extensions`
+            4. فعّل **Developer mode** (أعلى اليمين)
+            5. اضغط **Load unpacked** واختر المجلد
+
+            ---
+
+            **Easy install (Chrome):**
+            1. Download the `.zip` file from the assets below
+            2. Extract it to a folder
+            3. Open `chrome://extensions`
+            4. Enable **Developer mode** (top right)
+            5. Click **Load unpacked** and select the extracted folder
+          files: "khamsat-sniper-${{ steps.version.outputs.VERSION }}.zip"
+          draft: false
+          prerelease: false
